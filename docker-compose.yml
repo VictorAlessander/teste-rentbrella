@@ -1,0 +1,60 @@
+version: "2"
+services:
+  front:
+    command: yarn start
+    build: frontend/
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    networks:
+      rentbrella_test:
+        ipv4_address: 172.20.0.6
+  cobranca:
+    command: ./start.sh
+    build: services/cobranca/
+    ports:
+      - "5001:5001"
+    expose:
+      - 5001
+    networks:
+      rentbrella_test:
+        ipv4_address: 172.20.0.5
+  emprestimo:
+    command: ./start.sh
+    build: services/emprestimo/
+    ports:
+      - "5002:5002"
+    expose:
+      - 5502
+    networks:
+      rentbrella_test:
+        ipv4_address: 172.20.0.4
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    networks:
+      rentbrella_test:
+        ipv4_address: 172.20.0.2
+    environment:
+      MYSQL_ROOT_USERNAME: "root"
+      MYSQL_ROOT_PASSWORD: "root"
+  basket:
+    image: redis
+    ports:
+      - "6379:6379"
+    expose:
+      - 6379
+    networks:
+      rentbrella_test:
+        ipv4_address: 172.20.0.3
+
+networks:
+    rentbrella_test:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.20.0.0/16

@@ -4,3 +4,8 @@ venv/
 venv/*
 *.pyc
 .env
+.vscode/
+node_modules/
+yarn.lock
+emprestimo_venv/
+cobranca_venv/

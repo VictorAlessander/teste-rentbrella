@@ -6,4 +6,4 @@ flask db migrate
 flask db upgrade
 echo '[+] Environment variable created'
 echo '[+] Starting server'
-FLASK_DEBUG=1 FLASK_ENV=development flask run --host=0.0.0.0
+FLASK_DEBUG=1 FLASK_ENV=development flask run --host=0.0.0.0 --port=5002
