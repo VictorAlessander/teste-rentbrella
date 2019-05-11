@@ -36,7 +36,7 @@ Pela simplicidade, praticidade e necessidade, contendo apenas o necessário para
 
 > Redis (Broker)
 
-Maior viabilidade no que se trata de documentação contra o RabbitMQ e facilidade no uso com a linguagem Python usando o package `redis`.
+Maior viabilidade no que se trata de documentação contra o RabbitMQ e facilidade no uso com a linguagem Python usando o package `redis`.
 
 > MySQL (Banco de dados)
 
