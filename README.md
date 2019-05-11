@@ -14,9 +14,13 @@ Para derrubar os containers: `docker-compose down`
 IPs dos serviços:
 
 > Cobrança: 172.20.0.5:5001
+
 > Emprestimo: 172.20.0.4:5002
+
 > Frontend: 172.20.0.6:3000
+
 > BD: 172.20.0.2:3306
+
 > Redis: 172.20.0.3:6379
 
 Espera-se que você tenha o Docker e o docker-compose instalados em sua máquina.
