@@ -2,6 +2,13 @@
 
 Projeto proposto pela empresa Rentbrella (https://github.com/rentbrella) como desafio técnico para a vaga de Engenheiro de Software Pleno.
 
+# Contato
+
+Nome: Victor Alessander Gomes Rocha
+
+Telefone: (83) 99328-6604
+
+Email: alessander@protonmail.com
 
 # Uso
 
