@@ -1,0 +1,1 @@
+export const EMPRESTIMO_BASEURL = '0.0.0.0:5001/';

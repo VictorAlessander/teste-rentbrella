@@ -7,8 +7,27 @@ class Cobranca(db.Model):
 
   id = db.Column(db.Integer, primary_key=True)
   nome_cobranca = db.Column(db.String(100), nullable=False, unique=False)
-  emprestimo_id = db.Column(db.Integer, db.ForeignKey('emprestimos.id'), nullable=False)
+  emprestimo_id = db.Column(db.Integer, unique=False, nullable=False)
 
   def save(self):
     db.session.add(self)
     db.session.commit()
+
+  @classmethod
+  def find_cobranca_by_id(cls, id):
+    return Cobranca.query.filter_by(id=id).first()
+
+  @classmethod
+  def remove(cls, id):
+    cobranca = Cobranca.find_cobranca_by_id(id)
+
+    if cobranca:
+      db.session.delete(cobranca)
+      db.session.commit()
+      return True
+    else:
+      return False
+
+  @classmethod
+  def get_all_cobrancas(cls):
+    return Cobranca.query.all()

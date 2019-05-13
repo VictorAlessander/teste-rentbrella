@@ -11,6 +11,9 @@ services:
       rentbrella_test:
         ipv4_address: 172.20.0.6
   cobranca:
+    depends_on:
+      - rentbrellatestdb
+      - basket
     command: ./start.sh
     build: services/cobranca/
     ports:
@@ -21,6 +24,9 @@ services:
       rentbrella_test:
         ipv4_address: 172.20.0.5
   emprestimo:
+    depends_on:
+      - rentbrellatestdb
+      - basket
     command: ./start.sh
     build: services/emprestimo/
     ports:
@@ -30,8 +36,8 @@ services:
     networks:
       rentbrella_test:
         ipv4_address: 172.20.0.4
-  db:
-    image: mysql
+  rentbrellatestdb:
+    build: database/
     ports:
       - "3306:3306"
     expose:
@@ -39,9 +45,9 @@ services:
     networks:
       rentbrella_test:
         ipv4_address: 172.20.0.2
-    environment:
-      MYSQL_ROOT_USERNAME: "root"
-      MYSQL_ROOT_PASSWORD: "root"
+    # environment:
+    #   MYSQL_ROOT_USERNAME: "root"
+    #   MYSQL_ROOT_PASSWORD: "root"
   basket:
     image: redis
     ports:
