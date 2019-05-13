@@ -6,7 +6,7 @@ class Cobranca(db.Model):
   __tablename__ = 'cobrancas'
 
   id = db.Column(db.Integer, primary_key=True)
-  nome_cobranca = db.Column(db.String(100), nullable=False, unique=False)
+  valor_cobranca = db.Column(db.String(100), nullable=False, unique=False)
   emprestimo_id = db.Column(db.Integer, unique=False, nullable=False)
 
   def save(self):

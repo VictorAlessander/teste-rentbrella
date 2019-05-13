@@ -7,11 +7,14 @@ class Emprestimo(db.Model):
 
   id = db.Column(db.Integer, primary_key=True)
   nome_emprestimo = db.Column(db.String(100), nullable=False, unique=False)
+  valor_emprestimo = db.Column(db.Float, nullable=False, unique=False)
   status = db.Column(db.Boolean, unique=False, default=False)
 
   def save(self):
     db.session.add(self)
     db.session.commit()
+    db.session.refresh(self.id)
+    return self.id
 
   @classmethod
   def remove(cls, id):

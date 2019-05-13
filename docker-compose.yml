@@ -17,9 +17,9 @@ services:
     command: ./start.sh
     build: services/cobranca/
     ports:
-      - "5001:5001"
+      - "5002:5002"
     expose:
-      - 5001
+      - 5002
     networks:
       rentbrella_test:
         ipv4_address: 172.20.0.5
@@ -30,9 +30,9 @@ services:
     command: ./start.sh
     build: services/emprestimo/
     ports:
-      - "5002:5002"
+      - "5001:5001"
     expose:
-      - 5502
+      - 5501
     networks:
       rentbrella_test:
         ipv4_address: 172.20.0.4
