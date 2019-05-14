@@ -29,6 +29,8 @@ services:
       - basket
     command: ./start.sh
     build: services/emprestimo/
+    volumes:
+      - ./services/emprestimo:/teste-rentbrella
     ports:
       - "5001:5001"
     expose:
@@ -57,6 +59,24 @@ services:
     networks:
       rentbrella_test:
         ipv4_address: 172.20.0.3
+  worker:
+    build:
+      context: ./services/emprestimo
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./services/emprestimo:/teste-rentbrella
+    command: bash -c "rqworker default --worker-ttl 10 --path /emprestimoapp/ -u redis://172.20.0.3"
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    networks:
+      rentbrella_test:
+        ipv4_address: 172.20.0.7
+    # links:
+    #   - rentbrellatestdb
+    #   - cobranca
+    #   - emprestimo
 
 networks:
     rentbrella_test:

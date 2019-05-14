@@ -34,4 +34,4 @@ from resources import IndexResource, CobrancaResource, CobrancaJobResource
 
 api.add_resource(IndexResource.IndexResource, '/cobranca/index')
 api.add_resource(CobrancaResource.CobrancaResource, '/cobrancas', '/cobrancas/<int:id>', endpoint='id')
-api.add_resource(CobrancaJobResource.CobrancaJobResource, '/cobranca/<int:job_key>', endpoint="job_key")
+api.add_resource(CobrancaJobResource.CobrancaJobResource, '/cobranca/<string:job_key>', endpoint="job_key")
