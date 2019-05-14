@@ -4,6 +4,7 @@ from serializers import EmprestimoSerializer
 from constants import ErrorsConstants
 from main import redis_queue
 from proceed_to_cobranca import proceed_to_cobranca
+from remove_cobranca import remove_cobranca
 
 
 class EmprestimoResource(Resource):
@@ -106,12 +107,17 @@ class EmprestimoResource(Resource):
     if id:
       try:
         if Emprestimo.remove(id):
-          return {'message': 'Emprestimo removido com sucesso.'}, 200
+          job = redis_queue.enqueue_call(
+            func=remove_cobranca,
+            kwargs=dict(emprestimo_id=id),
+            result_ttl=200
+          )
+          return {'message': 'Emprestimo removido com sucesso. Job id gerado: {}'.format(job.get_id())}, 200
         else:
           return {'message': 'Emprestimo nao encontrado.'}, 404
       except Exception as err:
-        print(err)
-        return {'message': ErrorsConstants.ERRO_CONSULTAR_LOGS}, 500
+        raise err
+        # return {'message': ErrorsConstants.ERRO_CONSULTAR_LOGS}, 500
     else:
       return {'message': 'Insira o id do emprestimo.'}, 400
 
