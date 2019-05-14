@@ -2,6 +2,8 @@
 
 Projeto proposto pela empresa Rentbrella (https://github.com/rentbrella) como desafio técnico para a vaga de Engenheiro de Software Pleno.
 
+O projeto consiste em um emprestimo que pode conter um ou mais cobranças. O valor do emprestimo e da cobrança são apenas demonstrativos.
+
 # Contato
 
 Nome: Victor Alessander Gomes Rocha
@@ -27,6 +29,8 @@ IPs dos serviços:
 > BD: 172.20.0.2:3306
 
 > Redis: 172.20.0.3:6379
+
+> Worker: 172.20.0.7:8080
 
 Espera-se que você tenha o Docker e o docker-compose instalados em sua máquina.
 
