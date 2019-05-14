@@ -1,1 +1,0 @@
-export const COBRANCA_BASEURL = '0.0.0.0:5002/';

@@ -24,8 +24,6 @@ IPs dos serviços:
 
 > Emprestimo: 172.20.0.4:5002
 
-> Frontend: 172.20.0.6:3000
-
 > BD: 172.20.0.2:3306
 
 > Redis: 172.20.0.3:6379
@@ -53,6 +51,3 @@ Maior viabilidade no que se trata de documentação contra o RabbitMQ e facilida
 
 Semelhança de sintaxe com o SQL Server onde eu tenho dominância (T-SQL), facilitando a interação direta com o banco via terminal, e também por se tratar de uma aplicação de pequeno porte.
 
-> React (Frontend)
-
-Escolhido devido a uma maior familiaridade com o framework, mas poderia ter sido o Vue.JS também.
