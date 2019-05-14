@@ -8,7 +8,7 @@ class Emprestimo(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   nome_emprestimo = db.Column(db.String(100), nullable=False, unique=False)
   valor_emprestimo = db.Column(db.Float, nullable=False, unique=False)
-  status = db.Column(db.Boolean, unique=False, default=False)
+  # status = db.Column(db.Boolean, unique=False, default=False)
 
   def save(self, emprestimo):
     db.session.add(emprestimo)
@@ -33,4 +33,11 @@ class Emprestimo(db.Model):
 
   @classmethod
   def get_all_emprestimos(cls):
-    return Emprestimo.query.all()
+    def to_json(x):
+      return {
+        'id': x.id,
+        'nome_emprestimo': x.nome_emprestimo,
+        'valor_emprestimo': x.valor_emprestimo
+        # 'status': x.status
+      }
+    return {'emprestimos': list(map(lambda x: to_json(x), Emprestimo.query.all()))}

@@ -12,14 +12,14 @@ class CobrancaResource(Resource):
     self.parser = reqparse.RequestParser()
 
   def get(self, id=None):
-    if id is not None and id != '':
+    if id and id != '':
       cobranca = Cobranca.find_cobranca_by_id(id)
       if cobranca:
         return CobrancaSerializer.cobranca_serialized.jsonify(cobranca)
       else:
         return {'message': 'Cobranca nao encontrada'}, 404
     else:
-      return CobrancaSerializer.cobranca_serialized.jsonify(Cobranca.get_all_cobrancas())
+      return Cobranca.get_all_cobrancas()
 
   def post(self, id=None):
     self.parser.add_argument(

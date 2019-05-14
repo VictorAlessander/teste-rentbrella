@@ -20,7 +20,7 @@ class EmprestimoResource(Resource):
       else:
         return {'message': 'Emprestimo nao encontrado'}
     else:
-      return EmprestimoSerializer.emprestimo_serialized.jsonify(Emprestimo.get_all_emprestimos())
+      return Emprestimo.get_all_emprestimos()
   
   def post(self, id=None):
     self.parser.add_argument(
@@ -88,8 +88,8 @@ class EmprestimoResource(Resource):
         if data['valor_emprestimo'] and emprestimo_existente.valor_emprestimo != data['valor_emprestimo']:
           emprestimo_existente.valor_emprestimo = data['valor_emprestimo']
 
-        if data['status'] and emprestimo_existente.status != data['status']:
-          emprestimo_existente.status = data['status']
+        # if data['status'] and emprestimo_existente.status != data['status']:
+        #   emprestimo_existente.status = data['status']
 
         try:
           emprestimo_existente.save()

@@ -30,4 +30,10 @@ class Cobranca(db.Model):
 
   @classmethod
   def get_all_cobrancas(cls):
-    return Cobranca.query.all()
+    def to_json(x):
+      return {
+        'id': x.id,
+        'valor_cobranca': x.valor_cobranca,
+        'emprestimo_id': x.emprestimo_id
+      }
+    return {'cobrancas': list(map(lambda x: to_json(x), Cobranca.query.all()))}
