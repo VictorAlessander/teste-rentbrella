@@ -2,9 +2,8 @@ from flask_restful import reqparse, Resource
 from models.Emprestimo import Emprestimo
 from serializers import EmprestimoSerializer
 from constants import ErrorsConstants
-import requests
-import json
 from main import redis_queue
+from proceed_to_cobranca import proceed_to_cobranca
 
 
 class EmprestimoResource(Resource):
@@ -14,7 +13,7 @@ class EmprestimoResource(Resource):
 
 
   def get(self, id=None):
-    if id:
+    if id and id != '':
       emprestimo = Emprestimo.find_emprestimo_by_id(id)
       if emprestimo:
         return EmprestimoSerializer.emprestimo_serialized.jsonify(emprestimo)
@@ -42,25 +41,28 @@ class EmprestimoResource(Resource):
     )
 
     try:
-      # emprestimo_id = novo_emprestimo.save()
+      emprestimo_id = novo_emprestimo.save(novo_emprestimo)
 
       # cobranca_body = {
       #   'valor_cobranca': data['valor_emprestimo'],
       #   'emprestimo_id': emprestimo_id
       # }
 
-      # job = redis_queue.enqueue_call(
-      #   func=proceed_to_cobranca,
-      #   args=(cobranca_body,),
-      #   result_ttl=5000
-      # )
+      # redis_connection.hmset('test', cobranca_body)
 
-      # print(job.get_id())
+      # job = redis_queue.enqueue(proceed_to_cobranca, kwargs=cobranca_body)
 
-      return {'message': 'Emprestimo criado com sucesso.'}, 200
+      job = redis_queue.enqueue_call(
+        func=proceed_to_cobranca,
+        kwargs=dict(valor_emprestimo=data['valor_emprestimo'], emprestimo_id=emprestimo_id),
+        result_ttl=200
+      )
+
+      return {'message': 'Emprestimo criado com sucesso. Job id gerado: {}'.format(job.get_id())}, 200
     except Exception as err:
       # print(err)
-      return {'message': err}, 500
+      raise err
+      # return {'message': err}, 500
 
   def put(self, id):
     if id:
@@ -113,9 +115,15 @@ class EmprestimoResource(Resource):
     else:
       return {'message': 'Insira o id do emprestimo.'}, 400
 
-  @staticmethod
-  def proceed_to_cobranca(cobranca_body):
-    requests.post(
-      '0.0.0.0:5002/cobrancas',
-      data=cobranca_body
-    )
+  # @staticmethod
+  # def proceed_to_cobranca(kwargs):
+  #   # cobranca_body = {
+  #   #   'valor_cobranca': valor_emprestimo,
+  #   #   'emprestimo_id': emprestimo_id
+  #   # }
+
+  #   print(kwargs)
+  #   # requests.post(
+  #   #   '0.0.0.0:5002/cobrancas',
+  #   #   data=cobranca_body
+  #   # )

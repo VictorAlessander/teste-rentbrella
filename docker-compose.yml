@@ -1,15 +1,15 @@
 version: "2"
 services:
-  front:
-    command: yarn start
-    build: frontend/
-    ports:
-      - "3000:3000"
-    expose:
-      - 3000
-    networks:
-      rentbrella_test:
-        ipv4_address: 172.20.0.6
+  # front:
+  #   command: yarn start
+  #   build: frontend/
+  #   ports:
+  #     - "3000:3000"
+  #   expose:
+  #     - 3000
+  #   networks:
+  #     rentbrella_test:
+  #       ipv4_address: 172.20.0.6
   cobranca:
     depends_on:
       - rentbrellatestdb

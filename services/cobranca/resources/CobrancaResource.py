@@ -2,9 +2,8 @@ from flask_restful import reqparse, Resource
 from constants import ErrorsConstants
 from serializers import CobrancaSerializer
 from models.Cobranca import Cobranca
-import requests
-import json
 from main import redis_queue
+from update_emprestimo_status import update_emprestimo_status
 
 
 class CobrancaResource(Resource):
@@ -13,7 +12,7 @@ class CobrancaResource(Resource):
     self.parser = reqparse.RequestParser()
 
   def get(self, id=None):
-    if id is not None:
+    if id is not None and id != '':
       cobranca = Cobranca.find_cobranca_by_id(id)
       if cobranca:
         return CobrancaSerializer.cobranca_serialized.jsonify(cobranca)
@@ -43,18 +42,14 @@ class CobrancaResource(Resource):
     try:
       nova_cobranca.save()
 
-      status_emprestimo = True
-      emprestimo_body = {'status': status_emprestimo}
+      # job = redis_queue.enqueue_call(
+      #   func=update_emprestimo_status,
+      #   kwargs=dict(emprestimo_id=data['emprestimo_id'], status=True),
+      #   result_ttl=200
+      # )
 
-      job = redis_queue.enqueue_call(
-        func=proceed_to_emprestimo,
-        args=(data['emprestimo_id'], emprestimo_body,),
-        result_ttl=5000
-      )
-
-      print(job.get_id())
-
-      # return {'message': 'Cobranca salva com sucesso.'}, 200
+      # return {'message': 'Cobranca salva com sucesso. Job id gerado: {}'.format(job.get_id())}, 200
+      return {'message': 'Cobranca salva com sucesso.'}, 200
     except Exception as err:
       print(err)
       return {'message': ErrorsConstants.ERRO_CONSULTAR_LOGS}, 500
@@ -102,10 +97,3 @@ class CobrancaResource(Resource):
       except Exception as err:
         print(err)
         return {'message': ErrorsConstants.ERRO_CONSULTAR_LOGS}, 500
-
-  @staticmethod
-  def proceed_to_emprestimo(emprestimo_id, emprestimo_body):
-    requests.put(
-      '0.0.0.0:5001/emprestimos/{:d}'.format(emprestimo_id),
-      data=json.dumps(emprestimo_body)
-    )

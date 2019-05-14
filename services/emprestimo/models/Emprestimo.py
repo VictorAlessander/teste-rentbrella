@@ -10,11 +10,11 @@ class Emprestimo(db.Model):
   valor_emprestimo = db.Column(db.Float, nullable=False, unique=False)
   status = db.Column(db.Boolean, unique=False, default=False)
 
-  def save(self):
-    db.session.add(self)
+  def save(self, emprestimo):
+    db.session.add(emprestimo)
     db.session.commit()
-    db.session.refresh(self.id)
-    return self.id
+    db.session.refresh(emprestimo)
+    return emprestimo.id
 
   @classmethod
   def remove(cls, id):
